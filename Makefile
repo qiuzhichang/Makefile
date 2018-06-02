@@ -66,8 +66,6 @@ $(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 	mv $(SRC_DIR)/*.o $(OBJ_DIR)
 
 $(COMM_SRC_DIR)/%.obj: $(COMM_SRC_DIR)/%.cpp
-	@echo $(FILES)
-	@echo "obj 1"
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
 $(COMM_SRC_DIR)/%.o: $(COMM_SRC_DIR)/%.c
