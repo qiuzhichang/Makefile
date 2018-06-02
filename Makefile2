@@ -1,0 +1,83 @@
+#!/bin/make
+
+TARGET_NAME = skill-exam
+RUN_PARAM = input.txt output.txt
+
+FRAME_LIB = libframe-gcc-linux.a
+
+#DEBUG yes or no
+DEBUG = no
+
+export SHELL = /bin/bash
+TOP_DIR = $(shell pwd)
+SRC_DIR = $(TOP_DIR)/../../src
+LIB_DIR = $(TOP_DIR)/../../lib
+OBJ_DIR = $(TOP_DIR)
+BIN_DIR = $(TOP_DIR)/../..
+TARGET = $(TOP_DIR)/$(TARGET_NAME)
+
+RM = rm 
+MAKE = make
+CC = g++
+LINK = g++
+AR = ar
+
+C_SRC = $(wildcard $(SRC_DIR)/*.c)
+CPP_SRC = $(wildcard $(SRC_DIR)/*.cpp)
+
+C_OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(C_SRC))
+CPP_OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.obj,$(CPP_SRC))
+OBJ = $(C_OBJ) $(CPP_OBJ)
+
+INC = -I$(SRC_DIR) -I$(LIB_DIR)
+
+# CFLAG = -o2
+CFLAG = -o2 -wall -wextra -m32
+# LFLAG = 
+LFLAG = -m32
+
+ifeq ($(DEBUG), yes)
+	CFLAG += -g -DBUILD_DEBUG
+else
+endif
+
+CFLAG += $(INC)
+
+# rule
+.PHONY: all clean run
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	$(LINK) $(LFLAG) $(OBJ) $(LIB_DIR)/$(FRAME_LIB) -o $@
+	# $(LINK) $(LFLAG) $(OBJ)  -o $@
+
+run: all
+	cd $(BIN_DIR) && $(TARGET) $(RUN_PARAM)
+
+clean:
+	-$(RM) $(OBJ)
+	-$(RM) $(TARGET)
+
+$(OBJ_DIR)/%.obj: $(SRC_DIR)/%.cpp
+	$(CC) -c $(CFLAG) $< -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) -c $(CFLAG) $< -o $@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
