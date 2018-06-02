@@ -1,32 +1,28 @@
-
-CC = gcc
-CFLAGS = -Wall -O2
-
 export SHELL = /bin/bash
 TOP_DIR = $(shell pwd)
 BIN_DIR = $(TOP_DIR)
 SRC_DIR = $(TOP_DIR)/src
+LIB_DIR = $(TOP_DIR)/lib
+OBJ_DIR = $(TOP_DIR)/obj
 
-C_SRC = $(wildcard $(SRC_DIR)/*.c)
-CPP_SRC = $(wildcard $(SRC_DIR)/*.cpp)
-C_CPP_SRC = $(C_SRC) $(CPP_SRC)
 
-C_OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(C_SRC))
-CPP_OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.obj,$(CPP_SRC))
-OBJ = $(C_OBJ) $(CPP_OBJ)
+INC = -I$(LIB_DIR)
 
-NOTDIR_C_CPP_SRC = $(notdir $(C_CPP_SRC))
-FILES =  $(basename $(C_CPP_SRC))
 
-RM = rm
+CXX = g++
+CXXFLAGS = -g  -Wall
+CXXFLAGS += $(INC)
 
-all: $(FILES)
-	mv $(FILES) $(BIN_DIR)
-	@echo $(NOTDIR_C_CPP_SRC)
-	# @echo $(C_CPP_SRC)
-	# @echo "hello aqiu"
-	# @echo $(FILES)
-	# @echo "hello aqiu"
+CC=gcc
+CFLAGS = -g -O2
+CFLAGS += $(INC)
+# LDLIBS = -lpthread
+
+PROGS = 6_3_point hello
+
+all:   $(PROGS)
+
+$(PROGS): Point.o
 
 clean:
-	-$(RM) $(FILES) $(TOP_DIR)/$(NOTDIR_C_CPP_SRC)  *.o *~
+	rm -rf $(PROGS) *~ *.o *.dSYM

@@ -27,9 +27,6 @@ C_OBJ = $(patsubst %.c, /%.o,$(C_SRC))
 CPP_OBJ = $(patsubst %.cpp, %.obj,$(CPP_SRC))
 OBJ = $(C_OBJ) $(CPP_OBJ)
 
-NOTDIR_C_CPP_SRC = $(notdir $(C_CPP_SRC))
-FILES =  $(basename $(NOTDIR_C_CPP_SRC))
-
 INC = -I$(LIB_DIR)
 
 CXX = g++
@@ -41,8 +38,7 @@ CFLAGS = -g -O2
 CFLAGS += $(INC)
 # LDLIBS = -lpthread
 
-# PROGS = 6_3_point hello
-PROGS = $(FILES)
+PROGS = 6_3_point hello
 
 all:   $(PROGS)
 
@@ -66,7 +62,7 @@ $(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 	mv $(SRC_DIR)/*.o $(OBJ_DIR)
 
 $(COMM_SRC_DIR)/%.obj: $(COMM_SRC_DIR)/%.cpp
-	@echo $(FILES)
+	@echo $(CPP_OBJ)
 	@echo "obj 1"
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
